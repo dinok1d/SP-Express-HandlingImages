@@ -25,6 +25,11 @@ exports.productDetailFetch = async (req, res, next) =>
 
 exports.productCreate = async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
+    // console.log("this is the path", req.file.path); in the video lailaused path, but we remove /media/
+    // console.log("this is the filename", req.file.filename);
     const newProduct = await Product.create(req.body);
     return res.status(201).json(newProduct);
   } catch (error) {
@@ -34,6 +39,10 @@ exports.productCreate = async (req, res, next) => {
 
 exports.productUpdate = async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
+
     const product = await Product.findByIdAndUpdate(
       req.product,
       req.body,
