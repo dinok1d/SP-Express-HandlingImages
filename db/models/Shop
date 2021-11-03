@@ -1,0 +1,27 @@
+const mongoose = require("mongoose");
+const mongooseSlugPlugin = require("mongoose-slug-plugin");
+
+// we could also require {Schema, model} = require ("mongoose")
+//we would get rid of all the mongoose in code for destructing
+
+const ShopSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    slug: String,
+    image: { type: String },
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+ShopSchema.plugin(mongooseSlugPlugin, { tmpl: "<%=name%>" });
+
+module.exports = mongoose.model("City", ShopSchema);

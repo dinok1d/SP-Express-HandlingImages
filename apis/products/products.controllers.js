@@ -41,10 +41,10 @@ exports.productUpdate = async (req, res, next) => {
   try {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-    }
+    } // this will give me the file (image) for the model
 
     const product = await Product.findByIdAndUpdate(
-      req.product,
+      req.product, // req.body will give us the ID of the pt
       req.body,
       { new: true, runValidators: true } // returns the updated product
     );
