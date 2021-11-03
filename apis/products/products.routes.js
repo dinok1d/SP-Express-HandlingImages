@@ -2,6 +2,8 @@ const express = require("express");
 const Product = require("../../db/models/Product");
 const upload = require("../../middleware/multer"); // upload is a middleware that i only want
 // post and put middlewares to work
+const { shopCreate } = require("../products/products.controllers");
+
 const {
   productListFetch,
   productCreate,
@@ -26,6 +28,8 @@ router.param("productId", async (req, res, next, productId) => {
 });
 
 router.post("/", upload.single("image"), productCreate); // "image" this needs to be exactly the same as our model file.
+
+router.post("/:productId/shops", upload.single("image"), shopCreate); // "image" this needs to be exactly the same as our model file.
 
 router.get("/", productListFetch);
 

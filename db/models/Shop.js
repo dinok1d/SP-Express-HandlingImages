@@ -13,9 +13,12 @@ const ShopSchema = Schema(
     },
 
     image: { type: String },
-    product: {
-      type: Schema.Types.ObjectId,
-    },
+    products: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
   },
   {
     timestamps: true,

@@ -1,4 +1,6 @@
 // first step is yarn add cors
+// yarn add jsonwebtoken
+// yarn add bcrypt
 
 const express = require("express");
 const cors = require("cors"); // we need to require cors inorder to app.use it
@@ -8,6 +10,7 @@ const path = require("path");
 //our routes
 const productRoutes = require("./apis/products/products.routes");
 const shopRoutes = require("./apis/shops/shop.routes");
+const userRoutes = require("./apis/users/users.routes");
 
 // our databases
 const connectDB = require("./db/database");
@@ -38,6 +41,7 @@ app.use("/media", express.static(path.join(__dirname, "media"))); // the idea be
 // important note is that we need to create a media folder in the main url
 app.use("/api/products", productRoutes);
 app.use("/api/shops", shopRoutes);
+app.use("/api", userRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Path not found" });

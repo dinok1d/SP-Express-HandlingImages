@@ -24,8 +24,6 @@ router.param("shopId", async (req, res, next, shopId) => {
   }
 });
 
-router.post("/", upload.single("image"), shopCreate); // "image" this needs to be exactly the same as our model file.
-
 router.get("/", shopListFetch);
 
 router.get("/:shopId", shopDetailFetch);

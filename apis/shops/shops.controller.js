@@ -11,7 +11,7 @@ exports.fetchshop = async (shopId, next) => {
 
 exports.shopListFetch = async (req, res, next) => {
   try {
-    const shops = await Shop.find();
+    const shops = await Shop.find().populate("products");
     return res.json(shops);
   } catch (error) {
     next(error);
@@ -21,20 +21,6 @@ exports.shopListFetch = async (req, res, next) => {
 
 exports.shopDetailFetch = async (req, res, next) =>
   res.status(200).json(req.shop);
-
-exports.shopCreate = async (req, res, next) => {
-  try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-    }
-    // console.log("this is the path", req.file.path); in the video lailaused path, but we remove /media/
-    // console.log("this is the filename", req.file.filename);
-    const newshop = await Shop.create(req.body);
-    return res.status(201).json(newshop);
-  } catch (error) {
-    next(error);
-  }
-};
 
 exports.shopUpdate = async (req, res, next) => {
   try {

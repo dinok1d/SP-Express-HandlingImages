@@ -1,5 +1,5 @@
-const products = require("../../products");
 const Product = require("../../db/models/Product");
+const Shop = require("../../db/models/Shop");
 
 exports.fetchProduct = async (productId, next) => {
   try {
@@ -12,11 +12,34 @@ exports.fetchProduct = async (productId, next) => {
 
 exports.productListFetch = async (req, res, next) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().populate("shops");
     return res.json(products);
   } catch (error) {
     next(error);
     // return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.shopCreate = async (req, res, next) => {
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
+    console.log("before", req.body.product);
+    req.body.product = req.params.productId; // everytime i add the a product, i need to update the shop that i've added a new product
+    console.log("after", req.body.product); // it added the ID
+    const newShop = await Shop.create(req.body);
+    await Product.findByIdAndUpdate(
+      {
+        _id: req.params.productId,
+      },
+      {
+        $push: { shops: newShop._id },
+      }
+    );
+    return res.status(201).json(newShop);
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -28,7 +51,7 @@ exports.productCreate = async (req, res, next) => {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
-    // console.log("this is the path", req.file.path); in the video lailaused path, but we remove /media/
+    // console.log("this is the path", req.file.path);
     // console.log("this is the filename", req.file.filename);
     const newProduct = await Product.create(req.body);
     return res.status(201).json(newProduct);
