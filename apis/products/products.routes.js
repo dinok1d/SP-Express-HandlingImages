@@ -9,7 +9,7 @@ const {
   productUpdate,
   productDetailFetch,
   fetchProduct,
-} = require("./controllers");
+} = require("../products/products.controllers");
 
 // Create a mini express application
 const router = express.Router();
