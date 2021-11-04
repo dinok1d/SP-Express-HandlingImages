@@ -4,9 +4,7 @@ const upload = require("../../middleware/multer"); // upload is a middleware tha
 // post and put middlewares to work
 const {
   shopListFetch,
-  shopCreate,
-  shopUpdate,
-  shopDetailFetch,
+
   fetchshop,
 } = require("../shops/shops.controller");
 
@@ -25,9 +23,5 @@ router.param("shopId", async (req, res, next, shopId) => {
 });
 
 router.get("/", shopListFetch);
-
-router.get("/:shopId", shopDetailFetch);
-
-router.put("/:shopId", upload.single("image"), shopUpdate);
 
 module.exports = router;

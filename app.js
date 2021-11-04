@@ -1,11 +1,14 @@
 // first step is yarn add cors
 // yarn add jsonwebtoken
 // yarn add bcrypt
+// yarn add passport passport-local+
 
 const express = require("express");
 const cors = require("cors"); // we need to require cors inorder to app.use it
 const morgan = require("morgan");
 const path = require("path");
+const passport = require("passport");
+const { localStrategy } = require("./middleware/passport");
 
 //our routes
 const productRoutes = require("./apis/products/products.routes");
@@ -28,6 +31,8 @@ app.use(cors()); // this is to remove the accessisbility issue when trying to co
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(logger);
+app.use(passport.initialize());
+passport.use(localStrategy);
 app.use((req, res, next) => {
   if (req.body.name === "Broccoli Soup")
     res.status(400).json({ message: "I HATE BROCCOLI!! KEEFY! " });

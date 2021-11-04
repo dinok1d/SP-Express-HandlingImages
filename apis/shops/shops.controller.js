@@ -19,26 +19,6 @@ exports.shopListFetch = async (req, res, next) => {
   }
 };
 
-exports.shopDetailFetch = async (req, res, next) =>
-  res.status(200).json(req.shop);
-
-exports.shopUpdate = async (req, res, next) => {
-  try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-    } // this will give me the file (image) for the model
-
-    const shop = await Shop.findByIdAndUpdate(
-      req.shop, // req.body will give us the ID of the pt
-      req.body,
-      { new: true, runValidators: true } // returns the updated shop
-    );
-    return res.status(200).json(shop);
-  } catch (error) {
-    next(error);
-  }
-};
-
 // Create
 // Status: 201
 // Content: newly created item
