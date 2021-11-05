@@ -19,10 +19,10 @@ const ShopSchema = Schema(
         ref: "Product",
       },
     ],
-  },
-  {
-    timestamps: true,
   }
+  // {
+  //   timestamps: true, // shows when it was created
+  // }
 );
 
 ShopSchema.plugin(mongooseSlugPlugin, { tmpl: "<%=name%>" });
