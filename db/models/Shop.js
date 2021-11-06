@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Mongoose } = require("mongoose");
 const mongooseSlugPlugin = require("mongoose-slug-plugin");
 
 // we could also require {Schema, model} = require ("mongoose")
@@ -19,7 +19,12 @@ const ShopSchema = Schema(
         ref: "Product",
       },
     ],
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   }
+
   // {
   //   timestamps: true, // shows when it was created
   // }

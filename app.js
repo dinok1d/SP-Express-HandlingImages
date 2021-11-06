@@ -1,14 +1,17 @@
 // first step is yarn add cors
 // yarn add jsonwebtoken
 // yarn add bcrypt
-// yarn add passport passport-local+
+// yarn add passport passport-local
+// yarn add passport-jwt
+// in order to use authorization in postman, i need to go into the product create,
+// authrization - type bearer token and put a token.
 
 const express = require("express");
 const cors = require("cors"); // we need to require cors inorder to app.use it
 const morgan = require("morgan");
 const path = require("path");
 const passport = require("passport");
-const { localStrategy } = require("./middleware/passport");
+const { localStrategy, jwtStrategy } = require("./middleware/passport");
 
 //our routes
 const productRoutes = require("./apis/products/products.routes");
@@ -33,6 +36,8 @@ app.use(morgan("dev"));
 app.use(logger);
 app.use(passport.initialize());
 passport.use(localStrategy);
+passport.use(jwtStrategy); // when do we want to use jwtStrategy? which basically
+//creates a authentication method for our system. for any route we want to protect
 app.use((req, res, next) => {
   if (req.body.name === "Broccoli Soup")
     res.status(400).json({ message: "I HATE BROCCOLI!! KEEFY! " });
